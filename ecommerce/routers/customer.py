@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from schema.customer import Customer, CustomerCreate, customers
 
@@ -12,16 +12,12 @@ customer_router = APIRouter()
 
 # create customer
 @customer_router.post('/', status_code=201) 
-def create_customer(payload: CustomerCreate):
+def create_customer(payload: CustomerCreate = Depends(customer_service.username_check)):
     customer_id = len(customers) + 1
 
-    username = payload.username
-    if customer_service.username_check(username):
-        raise HTTPException(status_code=400, detail="username already exists")
-    
     new_customer = Customer(
         id=customer_id, 
-        username=username, 
+        username=payload.username, 
         address=payload.address
     )
     customers.append(new_customer)

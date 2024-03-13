@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from decimal import Decimal
 
 class Product(BaseModel):
@@ -6,7 +6,6 @@ class Product(BaseModel):
     name: str
     price: Decimal
     quantity_available: int
-    status: str = Field(default="pending")
 
 class ProductCreate(BaseModel):
     name: str
@@ -17,7 +16,7 @@ class ProductUpdate(ProductCreate):
     pass
 
 products = {
-    1: Product(id=1, name="Milo", price=Decimal('50.00'), quantity_available=1, status="pending"),
-    2: Product(id=2, name="Pepsi", price=Decimal('150.00'), quantity_available=15, status="pending"),
-    3: Product(id=3, name="Coffee", price=Decimal('10.50'), quantity_available=5, status="pending"),
+    1: Product(id=1, name="Milo", price=Decimal('50.00'), quantity_available=1),
+    2: Product(id=2, name="Pepsi", price=Decimal('150.00'), quantity_available=15),
+    3: Product(id=3, name="Coffee", price=Decimal('10.50'), quantity_available=5),
 }

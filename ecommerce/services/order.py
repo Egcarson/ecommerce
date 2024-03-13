@@ -3,7 +3,7 @@ import copy
 from fastapi import HTTPException
 
 from schema.product import Product, products
-from schema.order import Order, OrderCreate
+from schema.order import Order, OrderCreate, OrderProcess, orders
 
 from logger import logger
 
@@ -33,4 +33,14 @@ class OrderService:
             product.quantity_available -= 1
         return payload
     
+    @staticmethod
+    def complete_order(order_id: str):
+        order_set = set()
+        for order in orders:
+            order_set.add(order.id)
+            if order.id not in order_set:
+                raise HTTPException(status_code=400, detail='Order not found')
+
+            return order_id
+       
 order_service = OrderService()

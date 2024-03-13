@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from schema.order import Order, OrderCreate, orders
+from schema.order import Order, OrderCreate, orders, OrderProcess
 from services.order import order_service
 from schema.product import Product, products
 
@@ -28,9 +28,19 @@ def create_order(payload: OrderCreate = Depends(order_service.check_availability
     orders.append(new_order)
     return {'message': 'Order created successfully', 'data': new_order}
 
-@order_router.put("/{customer_id}", status_code=201)
-def order_status_update(customer_id: int, payload: Product):
-    for order in products:
-        if customer_id == order.customer_id:
-            order.status = products.get(status)
-        return {'message': 'Order status updated successfully', 'data': orders}
+# @order_router.put("/{customer_id}", status_code=201)
+# def order_status_update(customer_id: int, payload: Product):
+#     for order in products:
+#         if customer_id == order.customer_id:
+#             order.status = products.get(status)
+#         return {'message': 'Order status updated successfully', 'data': orders}
+
+@order_router.put('/order_process/{order_id}', status_code=201)
+def order_process(order_id: int = Depends(order_service.complete_order)):
+    for order in orders:
+        print('wahallllllllla')
+        if order.id == order_id:
+            print('double wahallllllllla')
+            order.status = OrderProcess.completed.value
+            print('double show wahallllllllla')
+            return {'message': 'Order processed successfully', 'data': order}
