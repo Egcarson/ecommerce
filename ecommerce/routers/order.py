@@ -42,5 +42,4 @@ def order_process(order_id: int = Depends(order_service.complete_order)):
         if order.id == order_id:
             print('double wahallllllllla')
             order.status = OrderProcess.completed.value
-            print('double show wahallllllllla')
             return {'message': 'Order processed successfully', 'data': order}

@@ -34,7 +34,7 @@ class OrderService:
         return payload
     
     @staticmethod
-    def complete_order(order_id: str):
+    def complete_order(order_id: int):
         order_set = set()
         for order in orders:
             order_set.add(order.id)
